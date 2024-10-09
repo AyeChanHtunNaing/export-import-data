@@ -1,4 +1,4 @@
-package com.pieis.performance_testing;
+package dev.peacechan.performance_testing;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

@@ -1,4 +1,4 @@
-package com.pieis.performance_testing;
+package dev.peacechan.performance_testing;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
