@@ -21,7 +21,7 @@ public class CSVImportService {
 
     public CSVImportService(DynamoDbEnhancedClient enhancedClient) {
         this.enhancedClient = enhancedClient;
-        this.projectTable = enhancedClient.table("ProjectData", TableSchema.fromBean(ProjectData.class));
+        this.projectTable = enhancedClient.table("local_ProjectTestingData", TableSchema.fromBean(ProjectData.class));
     }
 
     public void importCSVToDynamoDB(String csvFilePath) {
@@ -41,7 +41,7 @@ public class CSVImportService {
                 }
 
                 ProjectData projectData = new ProjectData();
-                projectData.setProjectId(columns[0]);
+                projectData.setProjectId(columns[0]); // Set sort key
                 projectData.setProjectCategory(columns[1]);
                 projectData.setProjectPn2Id(columns[2]);
                 projectData.setName(columns[3]);
@@ -57,44 +57,44 @@ public class CSVImportService {
                 projectData.setNotificationEmailAddress2(columns[13]);
                 projectData.setNotificationEmailAddress3(columns[14]);
                 projectData.setNotificationEmailAddress4(columns[15]);
-                projectData.setProjectDescription(columns[16]);
-                projectData.setProjectOwner(columns[17]);
-                projectData.setProjectManager(columns[18]);
-                projectData.setBudget(parseDouble(columns[19]));
-                projectData.setActualCost(parseDouble(columns[20]));
-                projectData.setEstimatedCost(parseDouble(columns[21]));
+                projectData.setProjectdescription(columns[16]);
+                projectData.setProjectowner(columns[17]);
+                projectData.setProjectmanager(columns[18]);
+                projectData.setBudget(columns[19]);
+                projectData.setActualcost(columns[20]);
+                projectData.setEstimatedcost(columns[21]);
                 projectData.setCurrency(columns[22]);
-                projectData.setFundingSource(columns[23]);
-                projectData.setProjectPhase(columns[24]);
-                projectData.setPriorityLevel(columns[25]);
+                projectData.setFundingsource(columns[23]);
+                projectData.setProjectphase(columns[24]);
+                projectData.setPrioritylevel(columns[25]);
                 projectData.setLocation(columns[26]);
-                projectData.setClientName(columns[27]);
-                projectData.setClientContact(columns[28]);
-                projectData.setRiskLevel(columns[29]);
-                projectData.setRiskDescription(columns[30]);
-                projectData.setRiskMitigation(columns[31]);
-                projectData.setStakeholderList(columns[32]);
-                projectData.setMilestoneList(columns[33]);
-                projectData.setTaskList(columns[34]);
-                projectData.setIssueLog(columns[35]);
-                projectData.setApprovalStatus(columns[36]);
-                projectData.setApprovalDate(columns[37]);
+                projectData.setClientname(columns[27]);
+                projectData.setClientcontact(columns[28]);
+                projectData.setRisklevel(columns[29]);
+                projectData.setRiskdescription(columns[30]);
+                projectData.setRiskmitigation(columns[31]);
+                projectData.setStakeholderlist(columns[32]);
+                projectData.setMilestonelist(columns[33]);
+                projectData.setTasklist(columns[34]);
+                projectData.setIssuelog(columns[35]);
+                projectData.setApprovalstatus(columns[36]);
+                projectData.setApprovaldate(columns[37]);
                 projectData.setNotes(columns[38]);
-                projectData.setProjectType(columns[39]);
-                projectData.setResourceAllocation(columns[40]);
-                projectData.setProgressPercentage(parseDouble(columns[41]));
+                projectData.setProjecttype(columns[39]);
+                projectData.setResourceallocation(columns[40]);
+                projectData.setProgresspercentage(columns[41]);
                 projectData.setComments(columns[42]);
-                projectData.setEstimatedDuration(columns[43]);
-                projectData.setActualDuration(columns[44]);
-                projectData.setProjectGoals(columns[45]);
-                projectData.setProjectScope(columns[46]);
-                projectData.setProjectConstraints(columns[47]);
-                projectData.setProjectAssumptions(columns[48]);
-                projectData.setProjectBenefits(columns[49]);
+                projectData.setEstimatedduration(columns[43]);
+                projectData.setActualduration(columns[44]);
+                projectData.setProjectgoals(columns[45]);
+                projectData.setProjectscope(columns[46]);
+                projectData.setProjectconstraints(columns[47]);
+                projectData.setProjectassumptions(columns[48]);
+                projectData.setProjectbenefits(columns[49]);
 
                 // Save the data to DynamoDB
                 try {
-                    projectTable.putItem(projectData);
+                    projectTable.putItem(projectData); // This should work if the partition key is set
                     successCount++;
                 } catch (Exception e) {
                     logger.error("Error saving project data: {}", e.getMessage());
@@ -103,15 +103,9 @@ public class CSVImportService {
             }
 
             logger.info("Import completed. Success: {}, Failures: {}", successCount, failureCount);
+            System.out.println("Import completed successfully. Total successes: " + successCount + ", Total failures: " + failureCount);
         } catch (IOException e) {
             logger.error("Error reading CSV file: {}", e.getMessage());
         }
-    }
-
-    private Double parseDouble(String value) {
-        if (value == null || value.isEmpty()) {
-            return null;
-        }
-        return Double.parseDouble(value);
     }
 }

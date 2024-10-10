@@ -5,6 +5,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import software.amazon.awssdk.enhanced.dynamodb.mapper.annotations.DynamoDbBean;
 import software.amazon.awssdk.enhanced.dynamodb.mapper.annotations.DynamoDbPartitionKey;
+import software.amazon.awssdk.enhanced.dynamodb.mapper.annotations.DynamoDbSortKey;
 
 @Data
 @NoArgsConstructor
@@ -12,7 +13,7 @@ import software.amazon.awssdk.enhanced.dynamodb.mapper.annotations.DynamoDbParti
 public class ProjectData {
 
     @Setter
-    private String projectId;
+    private String projectId; // This will be the sort key
     private String projectCategory;
     private String projectPn2Id;
     private String name;
@@ -28,45 +29,50 @@ public class ProjectData {
     private String notificationEmailAddress2;
     private String notificationEmailAddress3;
     private String notificationEmailAddress4;
-    private String projectDescription;
-    private String projectOwner;
-    private String projectManager;
-    private Double budget;
-    private Double actualCost;
-    private Double estimatedCost;
+    private String projectdescription;
+    private String projectowner;
+    private String projectmanager;
+    private String budget;
+    private String actualcost;
+    private String estimatedcost;
     private String currency;
-    private String fundingSource;
-    private String projectPhase;
-    private String priorityLevel;
+    private String fundingsource;
+    private String projectphase;
+    private String prioritylevel;
     private String location;
-    private String clientName;
-    private String clientContact;
-    private String riskLevel;
-    private String riskDescription;
-    private String riskMitigation;
-    private String stakeholderList;
-    private String milestoneList;
-    private String taskList;
-    private String issueLog;
-    private String approvalStatus;
-    private String approvalDate;
+    private String clientname;
+    private String clientcontact;
+    private String risklevel;
+    private String riskdescription;
+    private String riskmitigation;
+    private String stakeholderlist;
+    private String milestonelist;
+    private String tasklist;
+    private String issuelog;
+    private String approvalstatus;
+    private String approvaldate;
     private String notes;
-    private String projectType;
-    private String resourceAllocation;
-
-    private Double progressPercentage;
+    private String projecttype;
+    private String resourceallocation;
+    private String progresspercentage;
     private String comments;
-    private String estimatedDuration;
-    private String actualDuration;
-    private String projectGoals;
-    private String projectScope;
-    private String projectConstraints;
-    private String projectAssumptions;
-    private String projectBenefits;
+    private String estimatedduration;
+    private String actualduration;
+    private String projectgoals;
+    private String projectscope;
+    private String projectconstraints;
+    private String projectassumptions;
+    private String projectbenefits;
 
+    // This is the partition key
     @DynamoDbPartitionKey
+    public String getPK() {
+        return "PROJECT"; // Static value for partition key
+    }
+
+    // This is the sort key
+    @DynamoDbSortKey
     public String getProjectId() {
         return projectId;
     }
-
 }
